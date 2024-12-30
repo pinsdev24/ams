@@ -1,0 +1,17 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: gateway-service
+  cloud:
+    gateway:
+      routes:
+        - id: store-service
+          uri: http://localhost:8081/  # Make sure this is correct
+          predicates:
+            - Path=/toys/**
+        - id: payment-service
+          uri: http://localhost:8082/
+          predicates:
+            - Path=/pay/**
