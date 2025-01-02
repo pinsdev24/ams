@@ -6,8 +6,10 @@ import com.ams.storeservice.repository.CartRepository;
 import com.ams.storeservice.repository.ToyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -21,9 +23,11 @@ public class StoreController {
     @Autowired
     private CartRepository cartRepository;
 
-    @GetMapping
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Toy> getAllToys() {
-        return toyRepository.findAll();
+        List<Toy> toys = toyRepository.findAll();
+        System.out.println("Toys found =================> : " + toys);
+        return new ResponseEntity<>(toys, HttpStatus.OK).getBody();
     }
 
     @GetMapping("/carts/{cartId}")

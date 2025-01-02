@@ -2,6 +2,8 @@ package com.ams.paymentservice.controller;
 
 import com.ams.paymentservice.dto.CartDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,7 +22,7 @@ public class PaymentController {
     public ResponseEntity<String> pay(@PathVariable Long cartId) {
         try {
             // Assuming your store-service is running on port 8081
-            String storeServiceUrl = "http://localhost:8081/carts/" + cartId;
+            String storeServiceUrl = "http://store-service/toys/carts/" + cartId;
             ResponseEntity<CartDTO> response = restTemplate.getForEntity(storeServiceUrl, CartDTO.class);
 
             if (response.getStatusCode().is2xxSuccessful()) {
@@ -41,7 +43,7 @@ public class PaymentController {
             }
         } catch (RestClientException e) {
             // Handle exceptions during the API call (e.g., store-service is down)
-            return new ResponseEntity<>("Error communicating with store-service", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("Error communicating with store-service : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }
