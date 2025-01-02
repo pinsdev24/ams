@@ -54,6 +54,7 @@ class StoreControllerTest {
         toy2.setPrice(30);
 
         when(toyRepository.findAll()).thenReturn(Arrays.asList(toy1, toy2));
+
     }
 
     @Test

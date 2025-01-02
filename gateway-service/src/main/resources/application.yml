@@ -6,12 +6,19 @@ spring:
     name: gateway-service
   cloud:
     gateway:
+      discovery:
+        locator:
+          enabled: true
       routes:
         - id: store-service
-          uri: http://localhost:8081
+          uri: lb://store-service
           predicates:
             - Path=/toys/**
         - id: payment-service
-          uri: http://localhost:8082
+          uri: lb://payment-service
           predicates:
             - Path=/pay/**
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/

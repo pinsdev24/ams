@@ -26,7 +26,6 @@ public class StoreController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Toy> getAllToys() {
         List<Toy> toys = toyRepository.findAll();
-        System.out.println("Toys found =================> : " + toys);
         return new ResponseEntity<>(toys, HttpStatus.OK).getBody();
     }
 
